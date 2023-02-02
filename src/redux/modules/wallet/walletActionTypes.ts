@@ -1,0 +1,1 @@
+export const SET_WALLET_PHRASE = 'SET_WALLET_PHRASE';
