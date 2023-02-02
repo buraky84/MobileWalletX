@@ -9,6 +9,7 @@ import Onboarding from './ui/onboarding/Onboarding';
 import ImportWallet from './ui/onboarding/ImportWallet';
 import ImportFromSeed from './ui/onboarding/ImportFromSeed';
 import ImportFromQR from './ui/onboarding/ImportFromQR';
+import Wallet from './ui/wallet/Wallet';
 
 const Stack = createNativeStackNavigator();
 
@@ -23,6 +24,7 @@ const App: () => JSX.Element = () => {
             <Stack.Screen component={ImportWallet} name="ImportWallet" />
             <Stack.Screen component={ImportFromSeed} name="ImportFromSeed" />
             <Stack.Screen component={ImportFromQR} name="ImportFromQR" />
+            <Stack.Screen component={Wallet} name="Wallet" />
             <Stack.Group screenOptions={{presentation: 'modal'}}>
               {/*<Stack.Screen name="Login" component={LoginModal} />*/}
             </Stack.Group>

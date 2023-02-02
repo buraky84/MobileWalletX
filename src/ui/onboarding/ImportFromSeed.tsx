@@ -55,7 +55,7 @@ const ImportFromSeed: React.FC<{navigation: any}> = ({navigation}) => {
             marginTop: 15,
             backgroundColor: Colors.buttonBgColor3,
           }}
-          onPress={() => navigation.navigate('')}>
+          onPress={() => navigation.navigate('Wallet')}>
           Next
         </AppButton>
       </View>

@@ -85,7 +85,7 @@ const ImportFromQR: React.FC<{navigation: any}> = ({navigation}) => {
               autoPlay
               loop={false}
               onAnimationFinish={() =>
-                setTimeout(() => navigation.navigate('Onboarding'), 500)
+                setTimeout(() => navigation.navigate('Wallet'), 500)
               }
             />
             <Text
