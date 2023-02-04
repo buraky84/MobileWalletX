@@ -15,6 +15,20 @@ High Level Project Implementation Steps
     Most people who are succeeded to integrate web3js was at React Native version 0.59
 * I looked for an alternate solution and found ethers.js. And then integrated https://github.com/heroims/react-native-web3-wallet library where its based on ethers.js
 * Integrated and implemeneted UI designs based on given Figma design.
+* Discovered first time how to manage a blockchain library and use its methods.
+* Integrated Lottie for animations.
+* Applied form validations, alerts and toast for user messages.
+* Some unit tests added.
+
+
+Folder Structure
+#################################
+src/assets => Static files and lottie animations
+src/components => Common components that are re-used in UI pages
+src/consts => Colors, Blockchain related variables, Types, Links, Validators
+src/hooks => Custom hooks
+src/redux => State management
+src/ui => User Faced designs and mobile app pages.
 
 
 Project Installation Steps
@@ -24,9 +38,45 @@ cd MobileWalletX
 yarn install
 cd ios && pod install && cd ..
 cp -R node_modules/react-native-web3-wallet/patches .
+npx patch-package
 
-react-native-scrypt android/build.gradle
-replace
-compile 'com.facebook.react:react-native:+'
-with
-implementation 'com.facebook.react:react-native:+'
+Note: Everytime running yarn add or yarn install we need to run 'npx patch-package' afterwards.
+
+THEN...
+npx react-native run-ios OR npx react-native run-android
+
+
+How to test it
+#################################
+* There is currently 3 ways to access to a wallet which are all functional.
+    1) Create a new Wallet
+    2) Import an existing Wallet (Already created 2 test wallet)
+     a) Import by mnemonic 12 words phrase (wallet info1.txt & wallet info2.txt)
+     b) Import by QR (wallet QR1.png & wallet QR2.png)
+
+* All of above methods redirects user from Onboarding to Wallet page.
+* Wallet page has below functionalities up and running.
+    1) Displays user address / balance
+    2) Displays last 10 transactions
+    3) Allows user to send ETH over Goerli Network.
+
+
+Possible Improvements
+#################################
+* Integrate Theme support so customers may use dark / bright mode.
+* Integrate locize / localize for multilanguage support.
+* Add more functional tests & integrate UI testing.
+* Work on performance optimization.
+* Disable Android back button.
+* Add more blockchain functionalities such as NFTs / etc.
+* Integrate appcenter for CodePush (for quick fixes)
+* Integrate sentry for production logs (better analyze customer spesific issues)
+* Integrate Push Notifications for better user interaction.
+(For exm. when the app is killed would be good to inform user that he/she has recieved x amount of ETH. or Withdrawal Completed etc..)
+* Would create some bash scripts to generate automated Android apk/aab or IOS ipa with Flavor configuration (for development / staging / production environments)
+
+My Thoughts
+#################################
+As a crypto related person, i am happy to first time get integrated to blockchain and web3 technology.
+Lost quite amount of time while searching web3 things and stuck with dependencies during web3 integration.
+In a limited time, it was great experience for me to get friendly to Web3 terminology and to complete requested functionalities.

@@ -14,6 +14,7 @@ import OnboardingResultModal from './ui/onboarding/OnboardingResultModal';
 import CreateWalletModal from './ui/onboarding/CreateWalletModal';
 import {React$Node} from './consts/GenericTypes';
 import Toast from 'react-native-toast-message';
+import TransactionModal from './ui/wallet/TransactionModal';
 
 const Stack = createNativeStackNavigator();
 
@@ -28,6 +29,7 @@ const App: () => React$Node = () => {
             <Stack.Screen component={ImportWallet} name="ImportWallet" />
             <Stack.Screen component={ImportFromSeed} name="ImportFromSeed" />
             <Stack.Screen component={ImportFromQR} name="ImportFromQR" />
+            <Stack.Screen component={Wallet} name="Wallet" />
             <Stack.Group screenOptions={{presentation: 'fullScreenModal'}}>
               <Stack.Screen
                 name="OnboardingResultModal"
@@ -38,7 +40,16 @@ const App: () => React$Node = () => {
                 component={CreateWalletModal}
               />
             </Stack.Group>
-            <Stack.Screen component={Wallet} name="Wallet" />
+            <Stack.Group
+              screenOptions={{
+                presentation: 'transparentModal',
+                contentStyle: {backgroundColor: '#40404040'},
+              }}>
+              <Stack.Screen
+                name="TransactionModal"
+                component={TransactionModal}
+              />
+            </Stack.Group>
           </Stack.Navigator>
         </NavigationContainer>
         <Toast />

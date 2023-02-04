@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {
   Alert,
   FlatList,
@@ -13,40 +13,10 @@ import {AppHeader} from '../../components/AppHeader';
 import {AppButton} from '../../components/AppButton';
 import {Colors} from '../../consts/Colors';
 import {
-  contractTransaction,
-  createWallet,
-  exportKeystore,
-  exportMnemonicFromKeystore,
-  exportPrivateKeyFromKeystore,
-  exportMnemonic,
-  exportKeystoreFromMnemonic,
-  exportPrivateKeyFromMnemonic,
-  importKeystore,
-  importMnemonic,
-  importPrivateKey,
   getBalance,
-  getContractBalance,
-  getContractGasLimit,
-  getContractNfts,
-  getGasLimit,
-  getGasPrice,
-  getNonce,
-  sendTransaction,
-  signTransaction,
-  signMessage,
-  signTypedData,
-  waitForContractTransaction,
-  waitForTransaction,
-  getContract,
-  getSignerContract,
-  getWalletSigner,
-  getWalletSignerWithMnemonic,
-  getWalletSignerWithPrivateKey,
-  getSignerContractWithWalletProvider,
   bigNumberFormatUnits,
-  bigNumberParseUnits,
 } from 'react-native-web3-wallet';
-import {providerAddr} from '../../consts/BlockchainInfo';
+import {providerAddr, chainId} from '../../consts/BlockchainInfo';
 import {useInterval} from '../../hooks/useInterval';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../consts/GenericTypes';
@@ -59,6 +29,7 @@ import {validateAmount, validateEthAddress} from '../../consts/Validation';
 const Wallet: React.FC<{navigation: any}> = ({navigation}) => {
   const [sendAddress, setSendAddress] = useState('');
   const [sendAmount, setSendAmount] = useState('');
+  const [keyboardOpen, setKeyboardOpen] = useState(false);
 
   const walletState = useSelector((state: RootState) => state.wallet);
   const {address, keystore, balance, lastTransactions} = walletState;
@@ -140,10 +111,10 @@ const Wallet: React.FC<{navigation: any}> = ({navigation}) => {
   };
 
   const onPressSend = () => {
-    if (balance <= 0) {
+    if (balance <= 0 || balance < parseFloat(sendAmount)) {
       Toast.show({
         type: 'error',
-        text1: "Can't send when your balance is 0",
+        text1: "Can't send amount greater than your balance!",
       });
       return;
     }
@@ -157,123 +128,52 @@ const Wallet: React.FC<{navigation: any}> = ({navigation}) => {
         },
         {
           text: 'SEND',
-          onPress: () => startTransaction(providerAddr),
+          onPress: () => {
+            navigation.navigate('TransactionModal', {
+              address,
+              sendAddress,
+              sendAmount,
+              keystore,
+            });
+          },
         },
       ],
     );
-  };
-
-  const startTransaction = (providerAddr: string) => {
-    const data = '0x'; //'0xhello world'
-    const chainId = 5;
-
-    getGasPrice(providerAddr)
-      .then(gasPrice => {
-        console.log('gasPrice', gasPrice.toString());
-        getGasLimit(providerAddr, address, sendAddress, sendAmount, data)
-          .then(gasLimit => {
-            console.log('gasLimit', gasLimit.toString());
-            console.log('gas', bigNumberFormatUnits(gasPrice.mul(gasLimit)));
-
-            getNonce(providerAddr, address)
-              .then(nonce => {
-                console.log('nonce', nonce);
-                signTransaction(
-                  JSON.stringify(keystore),
-                  'password',
-                  nonce,
-                  gasLimit,
-                  gasPrice,
-                  sendAddress,
-                  chainId,
-                  sendAmount,
-                  data,
-                )
-                  .then(signedTx => {
-                    console.log('signedTx', signedTx);
-                    sendTransaction(providerAddr, signedTx)
-                      .then(resTx => {
-                        console.log(resTx);
-                        waitForTransaction(providerAddr, resTx.hash)
-                          .then(res => {
-                            console.log(res);
-                          })
-                          .catch(err => {
-                            console.log(err);
-                          });
-                      })
-                      .catch(err => {
-                        console.log(err);
-                      });
-                  })
-                  .catch(err => {
-                    console.log(err);
-                  });
-              })
-              .catch(err => {
-                console.log(err);
-              });
-          })
-          .catch(err => {
-            console.log(err);
-          });
-      })
-      .catch(err => {
-        console.log(err);
-      });
   };
 
   return (
     <View style={styles.container}>
       <AppHeader onPressBack={onPressBack}>Your Wallet</AppHeader>
       <KeyboardAwareScrollView
+        enableOnAndroid={true}
         keyboardOpeningTime={0}
-        extraScrollHeight={5}
+        extraScrollHeight={0}
+        onKeyboardDidShow={() => setKeyboardOpen(true)}
+        onKeyboardDidHide={() => setKeyboardOpen(false)}
         contentContainerStyle={styles.contentContainer}>
-        <Text style={styles.walletAddressHeader}>Wallet Address:</Text>
-        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+        <View>
+          <Text style={styles.walletAddressHeader}>Wallet Address:</Text>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <TextInput editable={false} style={styles.walletAddress}>
+              {address}
+            </TextInput>
+            <TouchableOpacity
+              style={{position: 'absolute', right: 16}}
+              onPress={onPressCopyAddress}>
+              <Octicons name="copy" color="#FFFFFF" size={16} />
+            </TouchableOpacity>
+          </View>
+          <Text style={styles.balanceHeader}>Balance:</Text>
           <TextInput editable={false} style={styles.walletAddress}>
-            {address}
+            {balance} ETH
           </TextInput>
-          <TouchableOpacity
-            style={{position: 'absolute', right: 16}}
-            onPress={onPressCopyAddress}>
-            <Octicons name="copy" color="#FFFFFF" size={16} />
-          </TouchableOpacity>
         </View>
-        <Text style={styles.balanceHeader}>Balance:</Text>
-        <TextInput editable={false} style={styles.walletAddress}>
-          {balance} ETH
-        </TextInput>
-
-        <View
-          style={{
-            marginTop: 5,
-            maxHeight: 250,
-            width: '100%',
-            alignItems: 'center',
-          }}>
-          <Text style={styles.lastTransactionsHeader}>
-            Last 10 Transactions:
-          </Text>
-          <FlatList
-            keyExtractor={(item, index) => 'transaction' + index}
-            data={lastTransactions}
-            scrollEnabled={true}
-            renderItem={({item}) => (
-              <View style={{flexDirection: 'row'}}>
-                <Text style={{color: Colors.light}}>From: dasdasd</Text>
-                <Text style={{color: Colors.light}}>To: dasdasd</Text>
-                <Text style={{color: Colors.light}}>Amount: 0.5</Text>
-              </View>
-            )}
-          />
-        </View>
-        <View style={{width: '100%', flex: 1, justifyContent: 'flex-end'}}>
+        <View style={{width: '100%', flex: 1, justifyContent: 'center'}}>
           <Text style={styles.sendAssetHeader}>Send ETH Digital Asset</Text>
           <Text style={styles.sendAssetSubHeader}>Recipient Address:</Text>
-          <View style={{...styles.sendAssetSubContainer, marginBottom: 20}}>
+          <View style={{...styles.sendAssetSubContainer, marginBottom: 5}}>
             <TextInput
+              keyboardType="email-address"
               value={sendAddress}
               onChangeText={onSendAddressChange}
               style={styles.recipientAddressInput}
@@ -306,6 +206,31 @@ const Wallet: React.FC<{navigation: any}> = ({navigation}) => {
           </AppButton>
         </View>
       </KeyboardAwareScrollView>
+      {!keyboardOpen && (
+        <View
+          style={{
+            height: 200,
+            marginTop: 5,
+            width: '100%',
+            alignItems: 'center',
+          }}>
+          <Text style={styles.lastTransactionsHeader}>
+            Last 10 Transactions:
+          </Text>
+          <FlatList
+            keyExtractor={(item, index) => 'transaction' + index}
+            data={lastTransactions}
+            scrollEnabled={true}
+            renderItem={({item}) => (
+              <View style={{flexDirection: 'row'}}>
+                <Text style={{color: Colors.light}}>From: dasdasd</Text>
+                <Text style={{color: Colors.light}}>To: dasdasd</Text>
+                <Text style={{color: Colors.light}}>Amount: 0.5</Text>
+              </View>
+            )}
+          />
+        </View>
+      )}
     </View>
   );
 };
