@@ -1,4 +1,4 @@
-High Level Project Steps
+High Level Project Implementation Steps
 #################################
 
 * Projects folder structure created
@@ -20,9 +20,10 @@ High Level Project Steps
 Project Installation Steps
 #################################
 git clone https://github.com/buraky84/MobileWalletX
+cd MobileWalletX
 yarn install
 cd ios && pod install && cd ..
-cp -R ..
+cp -R node_modules/react-native-web3-wallet/patches .
 
 react-native-scrypt android/build.gradle
 replace
