@@ -12,15 +12,13 @@ import {KeyboardAwareScrollView} from '@codler/react-native-keyboard-aware-scrol
 import {AppHeader} from '../../components/AppHeader';
 import {AppButton} from '../../components/AppButton';
 import {Colors} from '../../consts/Colors';
-import {
-  getBalance,
-  bigNumberFormatUnits,
-} from 'react-native-web3-wallet';
-import {providerAddr, chainId} from '../../consts/BlockchainInfo';
+import {getBalance, bigNumberFormatUnits} from 'react-native-web3-wallet';
+import {providerAddr} from '../../consts/BlockchainInfo';
 import {useInterval} from '../../hooks/useInterval';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../consts/GenericTypes';
 import {WALLET_ACTIONS} from '../../redux/actionTypes';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Octicons from 'react-native-vector-icons/Octicons';
 import Toast from 'react-native-toast-message';
 import Clipboard from '@react-native-clipboard/clipboard';
@@ -171,7 +169,7 @@ const Wallet: React.FC<{navigation: any}> = ({navigation}) => {
         <View style={{width: '100%', flex: 1, justifyContent: 'center'}}>
           <Text style={styles.sendAssetHeader}>Send ETH Digital Asset</Text>
           <Text style={styles.sendAssetSubHeader}>Recipient Address:</Text>
-          <View style={{...styles.sendAssetSubContainer, marginBottom: 5}}>
+          <View style={{...styles.sendAssetSubContainer, marginBottom: 8}}>
             <TextInput
               keyboardType="email-address"
               value={sendAddress}
@@ -207,13 +205,7 @@ const Wallet: React.FC<{navigation: any}> = ({navigation}) => {
         </View>
       </KeyboardAwareScrollView>
       {!keyboardOpen && (
-        <View
-          style={{
-            height: 200,
-            marginTop: 5,
-            width: '100%',
-            alignItems: 'center',
-          }}>
+        <View style={styles.transactionHistoryContainer}>
           <Text style={styles.lastTransactionsHeader}>
             Last 10 Transactions:
           </Text>
@@ -222,10 +214,19 @@ const Wallet: React.FC<{navigation: any}> = ({navigation}) => {
             data={lastTransactions}
             scrollEnabled={true}
             renderItem={({item}) => (
-              <View style={{flexDirection: 'row'}}>
-                <Text style={{color: Colors.light}}>From: dasdasd</Text>
-                <Text style={{color: Colors.light}}>To: dasdasd</Text>
-                <Text style={{color: Colors.light}}>Amount: 0.5</Text>
+              <View style={styles.transactionItemContainer}>
+                <MaterialCommunityIcons
+                  name="history"
+                  color="#FFFFFF"
+                  size={15}
+                />
+                <View style={{marginLeft: 10}}>
+                  <Text style={styles.lastTransaction}>From: {item.from}</Text>
+                  <Text style={styles.lastTransaction}>To: {item.to}</Text>
+                  <Text style={styles.lastTransaction}>
+                    Amount: {item.amount}
+                  </Text>
+                </View>
               </View>
             )}
           />
@@ -282,13 +283,6 @@ const styles = StyleSheet.create({
     borderWidth: 0.2,
     borderRadius: 8,
   },
-  lastTransactionsHeader: {
-    color: Colors.light,
-    fontSize: 14,
-    fontWeight: '600',
-    marginTop: 10,
-    marginBottom: 6,
-  },
   sendAssetHeader: {
     color: Colors.light,
     fontSize: 15,
@@ -328,6 +322,28 @@ const styles = StyleSheet.create({
     borderWidth: 0.2,
     borderRadius: 8,
   },
+  transactionHistoryContainer: {
+    height: 200,
+    marginTop: 5,
+    width: '100%',
+    paddingHorizontal: 8,
+  },
+  transactionItemContainer: {
+    marginBottom: 8,
+    backgroundColor: Colors.bgColor1,
+    padding: 6,
+    borderRadius: 6,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  lastTransactionsHeader: {
+    color: Colors.light,
+    fontSize: 15,
+    fontWeight: '600',
+    marginTop: 10,
+    marginBottom: 6,
+  },
+  lastTransaction: {color: Colors.light, fontSize: 11},
 });
 
 export default Wallet;

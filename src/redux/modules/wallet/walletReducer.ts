@@ -6,18 +6,56 @@ const initialState = {
   keystore: {},
   balance: 0,
   lastTransactions: [
-    {from: 'vcxvcxvxc', to: 'dadarewrwsd', amount: 1.1},
-    {from: 'vcxvcxvxc', to: 'dadarewrwsd', amount: 1.1},
-    {from: 'vcxvcxvxc', to: 'dadarewrwsd', amount: 1.1},
-    {from: 'vcxvcxvxc', to: 'dadarewrwsd', amount: 1.1},
-    {from: 'vcxvcxvxc', to: 'dadarewrwsd', amount: 1.1},
-    {from: 'vcxvcxvxc', to: 'dadarewrwsd', amount: 1.1},
-    {from: 'vcxvcxvxc', to: 'dadarewrwsd', amount: 1.1},
-    {from: 'vcxvcxvxc', to: 'dadarewrwsd', amount: 1.1},
-    {from: 'vcxvcxvxc', to: 'dadarewrwsd', amount: 1.1},
-    {from: 'vcxvcxvxc', to: 'dadarewrwsd', amount: 1.1},
-    {from: 'vcxvcxvxc', to: 'dadarewrwsd', amount: 1.1},
-    {from: 'vcxvcxvxc', to: 'dadarewrwsd', amount: 1.1},
+    {
+      from: '0xA0aFeD1ACa0584e221Ed8b0423c7Ec836FdfB55',
+      to: '0xA0aFeD1ACa0584e221Ed8b0423c7Ec836FdfB55',
+      amount: 0.1,
+    },
+    {
+      from: '0xA0aFeD1ACa0584e221Ed8b0423c7Ec836FdfB55',
+      to: '0xA0aFeD1ACa0584e221Ed8b0423c7Ec836FdfB55',
+      amount: 0.2,
+    },
+    {
+      from: '0xA0aFeD1ACa0584e221Ed8b0423c7Ec836FdfB55',
+      to: '0xA0aFeD1ACa0584e221Ed8b0423c7Ec836FdfB55',
+      amount: 0.3,
+    },
+    {
+      from: '0xA0aFeD1ACa0584e221Ed8b0423c7Ec836FdfB55',
+      to: '0xA0aFeD1ACa0584e221Ed8b0423c7Ec836FdfB55',
+      amount: 0.4,
+    },
+    {
+      from: '0xA0aFeD1ACa0584e221Ed8b0423c7Ec836FdfB55',
+      to: '0xA0aFeD1ACa0584e221Ed8b0423c7Ec836FdfB55',
+      amount: 0.5,
+    },
+    {
+      from: '0xA0aFeD1ACa0584e221Ed8b0423c7Ec836FdfB55',
+      to: '0xA0aFeD1ACa0584e221Ed8b0423c7Ec836FdfB55',
+      amount: 0.6,
+    },
+    {
+      from: '0xA0aFeD1ACa0584e221Ed8b0423c7Ec836FdfB55',
+      to: '0xA0aFeD1ACa0584e221Ed8b0423c7Ec836FdfB55',
+      amount: 0.7,
+    },
+    {
+      from: '0xA0aFeD1ACa0584e221Ed8b0423c7Ec836FdfB55',
+      to: '0xA0aFeD1ACa0584e221Ed8b0423c7Ec836FdfB55',
+      amount: 0.8,
+    },
+    {
+      from: '0xA0aFeD1ACa0584e221Ed8b0423c7Ec836FdfB55',
+      to: '0xA0aFeD1ACa0584e221Ed8b0423c7Ec836FdfB55',
+      amount: 0.9,
+    },
+    {
+      from: '0xA0aFeD1ACa0584e221Ed8b0423c7Ec836FdfB55',
+      to: '0xA0aFeD1ACa0584e221Ed8b0423c7Ec836FdfB55',
+      amount: 1.0,
+    },
   ],
 };
 

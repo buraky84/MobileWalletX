@@ -9,16 +9,18 @@ High Level Project Implementation Steps
 * Camera barcode reader integration completed
 * Infura.io account created and picked Goerli test network
 * Created an account via https://www.alchemy.com/ facuet to be able to load test ETH token via https://goerlifaucet.com/
-* Tried to integrate web3js with react native 0.71 however faced too many unresolvable issues where other people having the similar.
+* Tried to integrate web3js with React Native 0.71 however faced unresolvable dependency issues where other people having the similar.
     Most errors were related with randomNumbergenerators or node-libs-browser-react-native.
     Please see for exm. https://gist.github.com/dougbacelar/29e60920d8fa1982535247563eb63766
     Most people who are succeeded to integrate web3js was at React Native version 0.59
 * I looked for an alternate solution and found ethers.js. And then integrated https://github.com/heroims/react-native-web3-wallet library where its based on ethers.js
+  Ethers.js can't provide transaction history with Infura. So could not implement this feature at the moment. Just used mock data on a Flatlist to present transaction history
 * Integrated and implemeneted UI designs based on given Figma design.
 * Discovered first time how to manage a blockchain library and use its methods.
 * Integrated Lottie for animations.
 * Applied form validations, alerts and toast for user messages.
 * Some unit tests added.
+* KeyboardAware scrollview added for better UX during filling inputs by user.
 
 
 Folder Structure
