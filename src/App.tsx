@@ -10,10 +10,14 @@ import ImportWallet from './ui/onboarding/ImportWallet';
 import ImportFromSeed from './ui/onboarding/ImportFromSeed';
 import ImportFromQR from './ui/onboarding/ImportFromQR';
 import Wallet from './ui/wallet/Wallet';
+import OnboardingResultModal from './ui/onboarding/OnboardingResultModal';
+import CreateWalletModal from './ui/onboarding/CreateWalletModal';
+import {React$Node} from './consts/GenericTypes';
+import Toast from 'react-native-toast-message';
 
 const Stack = createNativeStackNavigator();
 
-const App: () => JSX.Element = () => {
+const App: () => React$Node = () => {
   return (
     <Provider store={store}>
       <SafeAreaView style={{flex: 1}}>
@@ -24,12 +28,20 @@ const App: () => JSX.Element = () => {
             <Stack.Screen component={ImportWallet} name="ImportWallet" />
             <Stack.Screen component={ImportFromSeed} name="ImportFromSeed" />
             <Stack.Screen component={ImportFromQR} name="ImportFromQR" />
-            <Stack.Screen component={Wallet} name="Wallet" />
-            <Stack.Group screenOptions={{presentation: 'modal'}}>
-              {/*<Stack.Screen name="Login" component={LoginModal} />*/}
+            <Stack.Group screenOptions={{presentation: 'fullScreenModal'}}>
+              <Stack.Screen
+                name="OnboardingResultModal"
+                component={OnboardingResultModal}
+              />
+              <Stack.Screen
+                name="CreateWalletModal"
+                component={CreateWalletModal}
+              />
             </Stack.Group>
+            <Stack.Screen component={Wallet} name="Wallet" />
           </Stack.Navigator>
         </NavigationContainer>
+        <Toast />
       </SafeAreaView>
     </Provider>
   );

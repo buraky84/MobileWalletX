@@ -1,11 +1,27 @@
 import React from 'react';
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {Alert, Image, StyleSheet, Text, View} from 'react-native';
 import {openLink} from '../../services/LinkingService';
 import {AppButton} from '../../components/AppButton';
 import {Colors} from '../../consts/Colors';
 import {Links} from '../../consts/Links';
 
 const Onboarding: React.FC<{navigation: any}> = ({navigation}) => {
+  const onCreateNewWallet = () => {
+    Alert.alert(
+      'Want to Create new Wallet?',
+      'This will immediately create a new wallet! You may also import your existing wallet if you already have one!',
+      [
+        {
+          text: 'Cancel',
+        },
+        {
+          text: 'OK',
+          onPress: () => navigation.navigate('CreateWalletModal'),
+        },
+      ],
+    );
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.topContainer}>
@@ -41,7 +57,9 @@ const Onboarding: React.FC<{navigation: any}> = ({navigation}) => {
               </Text>
             </Text>
 
-            <AppButton containerStyle={{marginTop: 15}}>
+            <AppButton
+              containerStyle={{marginTop: 15}}
+              onPress={onCreateNewWallet}>
               Create a new wallet
             </AppButton>
             <AppButton

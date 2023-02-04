@@ -1,1 +1,3 @@
-export const SET_WALLET_PHRASE = 'SET_WALLET_PHRASE';
+export const RESET_WALLET_INFO = 'RESET_WALLET_INFO';
+export const SET_WALLET_INFO = 'SET_WALLET_INFO';
+export const SET_BALANCE = 'SET_BALANCE';

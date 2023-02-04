@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, TextInput, View} from 'react-native';
 import Clipboard from '@react-native-clipboard/clipboard';
 import {AppHeader} from '../../components/AppHeader';
@@ -6,9 +6,21 @@ import {AppButton} from '../../components/AppButton';
 import Octicons from 'react-native-vector-icons/Octicons';
 import {Colors} from '../../consts/Colors';
 import {validateSeedText} from '../../consts/Validation';
+import {WALLET_ACTIONS} from '../../redux/actionTypes';
+import {useDispatch} from 'react-redux';
 
 const ImportFromSeed: React.FC<{navigation: any}> = ({navigation}) => {
   const [seedText, setSeedText] = useState('');
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch({
+      type: WALLET_ACTIONS.RESET_WALLET_INFO,
+    });
+
+    console.log('wallet info resetted!');
+  }, [dispatch]);
 
   const pasteFromClipboard = async () => {
     const text = await Clipboard.getString();
@@ -18,6 +30,20 @@ const ImportFromSeed: React.FC<{navigation: any}> = ({navigation}) => {
   const seedTestUpdate = (text: string) => {
     const result = validateSeedText(text);
     result && setSeedText(result);
+  };
+
+  const isValidSeed = (): boolean => {
+    const seedArr = seedText.trim().split(' ');
+    if (seedArr.length === 12) {
+      return true;
+    }
+
+    return false;
+  };
+
+  const onPressNext = () => {
+    const trimmedSeed = seedText.trim();
+    navigation.navigate('OnboardingResultModal', {seed: trimmedSeed});
   };
 
   return (
@@ -51,11 +77,14 @@ const ImportFromSeed: React.FC<{navigation: any}> = ({navigation}) => {
       </View>
       <View style={styles.bottomContainer}>
         <AppButton
+          disabled={!isValidSeed()}
           containerStyle={{
             marginTop: 15,
-            backgroundColor: Colors.buttonBgColor3,
+            backgroundColor: !isValidSeed()
+              ? Colors.buttonBgColor3
+              : Colors.buttonBgColor2,
           }}
-          onPress={() => navigation.navigate('Wallet')}>
+          onPress={onPressNext}>
           Next
         </AppButton>
       </View>

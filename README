@@ -1,5 +1,31 @@
-Projects folder structure created
-Major libraries are integrated (navigation, state management etc...)
-App launcher icon generated for Android & IOS
-Orientation lock setting is completed both for Android & IOS
-Splash screen created and integrated for Android & IOS
+High Level Project Steps
+#################################
+
+* Projects folder structure created
+* Major libraries are integrated (navigation, state management etc...)
+* App launcher icon generated for Android & IOS
+* Orientation lock setting is completed both for Android & IOS
+* Splash screen created and integrated for Android & IOS
+* Camera barcode reader integration completed
+* Infura.io account created and picked Goerli test network
+* Created an account via https://www.alchemy.com/ facuet to be able to load test ETH token via https://goerlifaucet.com/
+* Tried to integrate web3js with react native 0.71 however faced too many unresolvable issues where other people having the similar.
+    Most errors were related with randomNumbergenerators or node-libs-browser-react-native.
+    Please see for exm. https://gist.github.com/dougbacelar/29e60920d8fa1982535247563eb63766
+    Most people who are succeeded to integrate web3js was at React Native version 0.59
+* I looked for an alternate solution and found ethers.js. And then integrated https://github.com/heroims/react-native-web3-wallet library where its based on ethers.js
+* Integrated and implemeneted UI designs based on given Figma design.
+
+
+Project Installation Steps
+#################################
+git clone https://github.com/buraky84/MobileWalletX
+yarn install
+cd ios && pod install && cd ..
+cp -R ..
+
+react-native-scrypt android/build.gradle
+replace
+compile 'com.facebook.react:react-native:+'
+with
+implementation 'com.facebook.react:react-native:+'

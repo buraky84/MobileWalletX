@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {AppHeader} from '../../components/AppHeader';
 import {useCameraDevices, Camera} from 'react-native-vision-camera';
@@ -13,38 +13,47 @@ const ImportFromQR: React.FC<{navigation: any}> = ({navigation}) => {
     checkInverted: true,
   });
   const [hasCameraPermission, setHasCameraPermission] = React.useState(false);
-  const [detectedBarcode, setDetectedBarcode] = useState('');
   const devices = useCameraDevices();
   const device = devices.back;
 
   const dispatch = useDispatch();
 
-  const canUseCamera =
-    device != null && hasCameraPermission && !detectedBarcode;
+  useEffect(() => {
+    dispatch({
+      type: WALLET_ACTIONS.RESET_WALLET_INFO,
+    });
 
-  React.useEffect(() => {
+    console.log('wallet info resetted!');
+  }, [dispatch]);
+
+  const canUseCamera = device != null && hasCameraPermission;
+
+  useEffect(() => {
     (async () => {
       const status = await Camera.requestCameraPermission();
       setHasCameraPermission(status === 'authorized');
     })();
   }, []);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (barcodes.length > 0) {
       const detectedBarcodeArr = (barcodes[0]?.content?.data ?? '')
         .toString()
         .split(' ');
 
       if (detectedBarcodeArr.length === 12) {
-        setDetectedBarcode(detectedBarcodeArr.toString());
-        dispatch({
-          type: WALLET_ACTIONS.SET_WALLET_PHRASE,
-          payload: detectedBarcodeArr,
-        });
+        setTimeout(
+          () =>
+            navigation.navigate('OnboardingResultModal', {
+              seed: detectedBarcodeArr.join(' '),
+            }),
+          500,
+        );
+
         return;
       }
     }
-  }, [barcodes, barcodes.length, navigation]);
+  }, [barcodes, barcodes.length, dispatch, navigation]);
 
   return (
     <View style={styles.container}>
@@ -52,7 +61,7 @@ const ImportFromQR: React.FC<{navigation: any}> = ({navigation}) => {
         Import by QR Scan
       </AppHeader>
       <View style={styles.cameraContainer}>
-        {canUseCamera && (
+        {canUseCamera ? (
           <View style={{flex: 0.5}}>
             <Camera
               style={StyleSheet.absoluteFill}
@@ -62,8 +71,7 @@ const ImportFromQR: React.FC<{navigation: any}> = ({navigation}) => {
               frameProcessorFps={5}
             />
           </View>
-        )}
-        {!canUseCamera && !detectedBarcode && (
+        ) : (
           <View style={{alignItems: 'center'}}>
             <Text style={{color: Colors.light, marginBottom: -16}}>
               Camera Loading...
@@ -74,27 +82,6 @@ const ImportFromQR: React.FC<{navigation: any}> = ({navigation}) => {
               autoPlay
               loop
             />
-          </View>
-        )}
-        {detectedBarcode && (
-          <View style={{alignItems: 'center'}}>
-            <LottieView
-              style={{width: 130}}
-              speed={0.7}
-              source={require('../../assets/lottie/success.json')}
-              autoPlay
-              loop={false}
-              onAnimationFinish={() =>
-                setTimeout(() => navigation.navigate('Wallet'), 500)
-              }
-            />
-            <Text
-              style={{color: Colors.light, fontWeight: '700', fontSize: 18}}>
-              Seed Phrade Detected... Please wait...
-            </Text>
-            <View style={styles.seedContainer}>
-              <Text style={styles.seedText}>{detectedBarcode}</Text>
-            </View>
           </View>
         )}
       </View>
@@ -115,12 +102,6 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     alignItems: 'center',
     marginTop: 15,
-  },
-  seedContainer: {marginVertical: 8, paddingHorizontal: 40},
-  seedText: {
-    fontSize: 12,
-    color: Colors.light,
-    textAlign: 'center',
   },
 });
 

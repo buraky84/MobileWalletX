@@ -1,0 +1,5 @@
+Infura Goerli Testnet
+
+{"address": "0x42Aa9C492f202FEc87d8d9d5C262BF5EA6134185", "keystore": {"address": "42aa9c492f202fec87d8d9d5c262bf5ea6134185", "crypto": {"cipher": "aes-128-ctr", "cipherparams": [Object], "ciphertext": "8c7dd4561cd36576f8b97273e6d4ba3636322aa59bc0118a9929d220cfc98951", "kdf": "scrypt", "kdfparams": [Object], "mac": "8f3620ea6724596d534814cdcd95f6ce225b2f6570a2743be6f0f772a4016fef"}, "id": "eb3a6414-65ef-49e1-8141-216ac2959090", "version": 3, "x-ethers": {"client": "ethers.js", "gethFilename": "UTC--2023-02-03T09-31-11.0Z--42aa9c492f202fec87d8d9d5c262bf5ea6134185", "locale": "en", "mnemonicCiphertext": "321067fe23d253d1ff7cb9e81777df3d", "mnemonicCounter": "a6e7286617ba90db7f6c0e0a1f314111", "path": "m/44'/60'/0'/0/0", "version": "0.1"}}, "mnemonic": ["wolf", "insect", "price", "demise", "observe", "elder", "help", "estate", "enhance", "dial", "club", "cart"], "shuffleMnemonic": ["help", "club", "price", "elder", "observe", "enhance", "wolf", "estate", "dial", "demise", "cart", "insect"]}
+
+wolf insect price demise observe elder help estate enhance dial club cart
