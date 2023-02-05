@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {StyleSheet, Text, TextInput, View} from 'react-native';
 import Clipboard from '@react-native-clipboard/clipboard';
 import {AppHeader} from '../../components/AppHeader';
@@ -32,14 +32,14 @@ const ImportFromSeed: React.FC<{navigation: any}> = ({navigation}) => {
     result && setSeedText(result);
   };
 
-  const isValidSeed = (): boolean => {
+  const isValidSeed = useCallback((): boolean => {
     const seedArr = seedText.trim().split(' ');
     if (seedArr.length === 12) {
       return true;
     }
 
     return false;
-  };
+  }, [seedText]);
 
   const onPressNext = () => {
     const trimmedSeed = seedText.trim();

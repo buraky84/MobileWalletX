@@ -22,10 +22,10 @@ const OnboardingResultModal: React.FC<{route: any; navigation: any}> = ({
     useState<WalletResponse>(initWalletResponse);
 
   const {seed} = route?.params;
-  console.log('seed => ', seed);
   const dispatch = useDispatch();
 
   const onSeedAnimationCompleted = () => {
+    setIsSeedAnimationCompleted(true);
     setTimeout(() => {
       importMnemonic(seed, 'password')
         .then(res => {
@@ -73,7 +73,6 @@ const OnboardingResultModal: React.FC<{route: any; navigation: any}> = ({
             autoPlay
             loop={false}
             onAnimationFinish={() => {
-              setIsSeedAnimationCompleted(true);
               onSeedAnimationCompleted();
             }}
           />

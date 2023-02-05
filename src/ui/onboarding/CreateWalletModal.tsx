@@ -6,7 +6,6 @@ import {WALLET_ACTIONS} from '../../redux/actionTypes';
 import {useDispatch} from 'react-redux';
 import {createWallet} from 'react-native-web3-wallet';
 
-
 const CreateWalletModal: React.FC<{navigation: any}> = ({navigation}) => {
   const [isWalletCreationTried, setIsWalletCreationTried] =
     React.useState(false);

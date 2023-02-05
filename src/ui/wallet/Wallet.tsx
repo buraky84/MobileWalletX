@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {
   Alert,
   FlatList,
@@ -54,7 +54,7 @@ const Wallet: React.FC<{navigation: any}> = ({navigation}) => {
           console.log(err);
         });
     },
-    30000,
+    10000,
     true,
   );
 
@@ -82,7 +82,7 @@ const Wallet: React.FC<{navigation: any}> = ({navigation}) => {
     });
   };
 
-  const onSendAddressChange = (val: string) => {
+  const onSendAddressChange = useCallback((val: string) => {
     if (val.trim().length >= 42) {
       !validateEthAddress(val) &&
         Toast.show({
@@ -91,7 +91,7 @@ const Wallet: React.FC<{navigation: any}> = ({navigation}) => {
         });
     }
     setSendAddress(val.trim());
-  };
+  }, []);
 
   const onPressPasteAddress = async () => {
     const text = await Clipboard.getString();
@@ -102,11 +102,11 @@ const Wallet: React.FC<{navigation: any}> = ({navigation}) => {
     });
   };
 
-  const onSendAmountChange = (val: string) => {
+  const onSendAmountChange = useCallback((val: string) => {
     if (validateAmount(val)) {
       setSendAmount(val);
     }
-  };
+  }, []);
 
   const onPressSend = () => {
     if (balance <= 0 || balance < parseFloat(sendAmount)) {

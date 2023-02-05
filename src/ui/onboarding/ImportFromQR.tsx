@@ -26,8 +26,6 @@ const ImportFromQR: React.FC<{navigation: any}> = ({navigation}) => {
     console.log('wallet info resetted!');
   }, [dispatch]);
 
-  const canUseCamera = device != null && hasCameraPermission;
-
   useEffect(() => {
     (async () => {
       const status = await Camera.requestCameraPermission();
@@ -54,6 +52,8 @@ const ImportFromQR: React.FC<{navigation: any}> = ({navigation}) => {
       }
     }
   }, [barcodes, barcodes.length, dispatch, navigation]);
+
+  const canUseCamera = device != null && hasCameraPermission;
 
   return (
     <View style={styles.container}>
